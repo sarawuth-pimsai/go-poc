@@ -38,10 +38,6 @@ CREATE TABLE `increment` (
 INSERT INTO `increment`(`product_id`, `quantity`)VALUES(1, 0.01)
 ```
 ## Benchmark
-### All Memory
-```go
-go test -v ./... -bench=. -benchmem
-```
 ### Redis Benchmark
 ```go
 go test -v ./... -bench=BenchmarkRedisIncrement
@@ -53,4 +49,44 @@ go test -v ./... -bench=BenchmarkMongoIncrement
 ### MySQL Benchmark
 ```go
 go test -v ./... -bench=BenchmarkMongoIncrement
+```
+### All Memory
+```go
+go test -v ./... -bench=. -benchmem
+```
+### Result
+```
+goos: darwin
+goarch: arm64
+pkg: go/poc/performance/database/increment/database
+cpu: Apple M1 Pro
+BenchmarkMongoIncrement
+BenchmarkMongoIncrement-8   	    3692	    309544 ns/op	    7343 B/op	     128 allocs/op
+BenchmarkMySQLIncrement
+BenchmarkMySQLIncrement-8   	    1204	    906610 ns/op	     807 B/op	      25 allocs/op
+BenchmarkRedisIncrement
+BenchmarkRedisIncrement-8   	    5730	    175379 ns/op	     210 B/op	       7 allocs/op
+PASS
+ok  	go/poc/performance/database/increment/database	3.503s
+```
+### Benchmark result description
+```
+goos: darwin
+goarch: arm64
+pkg: go/poc/performance/database/increment/database
+cpu: Apple M1 Pro
+BenchmarkMongoIncrement
+BenchmarkMongoIncrement-8   	    3692	    309544 ns/op	    7343 B/op	     128 allocs/op
+PASS
+ok  	go/poc/performance/database/increment/database	3.503s
+
+Os: darwin
+Architecture: arm64
+Package name: go/poc/performance/database/increment/database is package name
+CPU: Apple M1 Pro
+Number of cores used: 8
+Iterations: 3692
+Nanoseconds per operation: 309544
+Number of bytes allocated per operation: 7343
+Number of allocations per operation: 128
 ```
